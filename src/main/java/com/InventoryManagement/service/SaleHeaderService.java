@@ -1,7 +1,9 @@
 package com.InventoryManagement.service;
 
+import com.InventoryManagement.entity.Customer;
 import com.InventoryManagement.entity.SaleHeader;
 import com.InventoryManagement.exception.NoSuchElementException;
+import com.InventoryManagement.repository.CustomerRepository;
 import com.InventoryManagement.repository.SaleHeaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ import java.util.List;
 public class SaleHeaderService {
     @Autowired
     private SaleHeaderRepository saleHeaderRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
     public List<SaleHeader> getSale(){
         return saleHeaderRepository.findAll();
     }
@@ -28,5 +32,11 @@ public class SaleHeaderService {
              throw new NoSuchElementException("There is no sale record on "+localDateTime);
          }return saleHeaders;
 
+    }
+    public SaleHeader addSaleHeader(int customerId){
+        Customer customer=customerRepository.findById(customerId).orElseThrow(
+                ()->new NoSuchElementException("Given customer id "+customerId+" not present")
+        );
+        return saleHeaderRepository.addSale(customerId );
     }
 }

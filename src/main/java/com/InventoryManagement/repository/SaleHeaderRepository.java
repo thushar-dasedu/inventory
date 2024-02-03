@@ -14,4 +14,7 @@ import java.util.List;
 public interface SaleHeaderRepository extends JpaRepository<SaleHeader,Integer> {
     @Query(value = "select * from sale_header where sale_date_time=:saleDate",nativeQuery = true)
     List<SaleHeader> getSaleByDate(@Param("saleDate") LocalDateTime saleDate);
+
+    @Query(value = "call addSaleHeader(:customerId)",nativeQuery = true)
+    public SaleHeader addSale(@Param("customerId")int customerId );
 }

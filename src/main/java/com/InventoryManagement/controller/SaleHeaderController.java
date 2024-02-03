@@ -26,4 +26,8 @@ public SaleHeader getSaleId(@PathVariable int saleId){
     public List<SaleHeader> getSaleByDate(@RequestParam LocalDateTime date){
     return service.getSaleByDate(date);
 }
+@PostMapping("/add-sale")
+    public SaleHeader addSale(@RequestParam int customerId){
+    return service.addSaleHeader(customerId);
+}
 }
