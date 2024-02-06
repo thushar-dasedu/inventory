@@ -1,6 +1,7 @@
 package com.InventoryManagement.controller;
 
 import com.InventoryManagement.entity.ProductBrand;
+import com.InventoryManagement.exception.DeleteResponse;
 import com.InventoryManagement.service.ProductBrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,12 +29,14 @@ public class ProductBrandController {
         return service.getProduct();
     }
     @DeleteMapping("/delete-product-by/{id}")
-    public ResponseEntity<String> deleteCustomer(@PathVariable int id){
+    public ResponseEntity<DeleteResponse> deleteCustomer(@PathVariable int id){
         try{
             service.deleteProductById(id);
-            return new ResponseEntity<>("product deleted success fully", HttpStatus.OK);
+            DeleteResponse deleteResponse=new DeleteResponse("product deleted success fully", HttpStatus.OK.value());
+            return new ResponseEntity<>( deleteResponse, HttpStatus.OK);
         }catch (NoSuchElementException e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+            DeleteResponse deleteResponse=new DeleteResponse(e.getMessage(),HttpStatus.NOT_FOUND.value());
+            return new ResponseEntity<>(deleteResponse,HttpStatus.NOT_FOUND);
         }
 
     }

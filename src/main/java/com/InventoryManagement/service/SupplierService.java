@@ -32,5 +32,13 @@ public class SupplierService {
         }throw new MobileNumberAndEmailExistsException("Given mobile number "+supplier.getMobileNumber()+" and email "
         +supplier.getEmail()+" already present");
     }
-
+public List<Supplier> getAllSup(){
+        return repository.findAll();
+}
+public void deleteSupplierById(int supplierId){
+        Supplier supplier=repository.findById(supplierId).orElseThrow(
+                ()->new NoSuchElementException("Given supplier id "+supplierId+" not present")
+        );
+        repository.delete(supplier);
+}
 }

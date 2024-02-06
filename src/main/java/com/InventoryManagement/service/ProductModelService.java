@@ -23,15 +23,18 @@ public class ProductModelService {
                 ()->new NoSuchElementException("Given product model id "+id+" not present")
         );
     }
-    public ProductModel addProductModel(int productId, String productModel, BigDecimal unitPrice,float Tax,int Quantity) {
+    public ProductModel addProductModel(ProductModel model) {
 
-        ProductBrand brand=productBrandRepository.findById(productId).orElseThrow(
-                ()->new NoSuchElementException("Given product id "+ productId +" is not present")
+        ProductBrand brand=productBrandRepository.findById(model.getProductId()).orElseThrow(
+                ()->new NoSuchElementException("Given product id "+ model.getProductId() +" is not present")
         );
-        List<ProductModel> product=productModelRepository.getModelByProductModel(productModel);
+        List<ProductModel> product=productModelRepository.getModelByProductModel(model.getProductModelName());
 
         if (product.isEmpty()){
-            return productModelRepository.addProductModel(productId,productModel,unitPrice,Tax,Quantity) ;
+            return productModelRepository.addProductModel(model.getProductId()
+            ,model.getProductModelName(),
+                    model.getUnitPrice(),
+                    model.getTax(),model.getQuantity()) ;
         }throw new ElementAlreadyExistsException("Given product model already exists");
 
     }

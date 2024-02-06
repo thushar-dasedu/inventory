@@ -1,6 +1,7 @@
 package com.InventoryManagement.controller;
 
 import com.InventoryManagement.entity.ProductModel;
+import com.InventoryManagement.exception.DeleteResponse;
 import com.InventoryManagement.exception.NoSuchElementException;
 import com.InventoryManagement.service.ProductModelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,9 @@ public class ProductModelController {
     public ProductModel getModelById(@PathVariable int id){
         return service.getModelById(id);
     }
-    @PostMapping("/add-product-model/{productId}")
-    public ProductModel addModel(@PathVariable int productId, @RequestParam String productModel, @RequestParam BigDecimal unitPrice
-    ,@RequestParam float Tax,@RequestParam int Quantity){
-        return service.addProductModel(productId,productModel,unitPrice,Tax,Quantity);
+    @PostMapping("/add-product-model")
+    public ProductModel addModel(@RequestBody ProductModel model){
+        return service.addProductModel(model);
     }
     @GetMapping("/get-all-model")
     public List<ProductModel> getAllModel(){
@@ -38,13 +38,15 @@ public class ProductModelController {
         return service.getModelByName(name);
     }
     @DeleteMapping("/delete-model-by/{id}")
-    public ResponseEntity<String> deleteModel(@PathVariable int id){
+    public ResponseEntity<DeleteResponse> deleteModel(@PathVariable int id){
         try {
             ProductModel model=service.getModelById(id);
             service.deleteModelById(id);
-            return new  ResponseEntity<>("Product with detail "+model+"deleted", HttpStatus.OK);
+            DeleteResponse deleteResponse=new DeleteResponse("Product   detail deleted", HttpStatus.OK.value());
+            return new  ResponseEntity<>(deleteResponse, HttpStatus.OK);
         }catch (NoSuchElementException e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+            DeleteResponse deleteResponse=new DeleteResponse(e.getMessage(),HttpStatus.NOT_FOUND.value());
+            return new ResponseEntity<>(deleteResponse,HttpStatus.NOT_FOUND);
         }
 
     }

@@ -25,7 +25,7 @@ public class ProductSerialNumberController {
         return service.getSerialByStock(stockId);
     }
     @PostMapping("/add-serial-number")
-    public ProductSerialNumber addSerialNumber(@RequestParam int stockId,@RequestParam String serialNumber){
-        return service.addSerial(stockId,serialNumber);
+    public ProductSerialNumber addSerialNumber(@RequestBody ProductSerialNumber serialNumber){
+        return service.addSerial(serialNumber);
     }
 }

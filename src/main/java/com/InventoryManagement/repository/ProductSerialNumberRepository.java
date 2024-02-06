@@ -15,4 +15,7 @@ public interface ProductSerialNumberRepository extends JpaRepository<ProductSeri
 
     @Query(value = "call addSerialNumber(:stockId,:serialNumber)",nativeQuery = true)
     public ProductSerialNumber addSerialNumber(@Param("stockId")int stockId,@Param("serialNumber")String serialNumber);
+
+    @Query(value = "select * from product_serial_number where serial_number=:serialNumber",nativeQuery = true)
+    public ProductSerialNumber getBySerialNumber(@Param("serialNumber")String serialNumber);
 }

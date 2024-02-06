@@ -3,6 +3,7 @@ package com.InventoryManagement.controller;
 import com.InventoryManagement.entity.SaleHeader;
 import com.InventoryManagement.service.SaleHeaderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -22,12 +23,12 @@ public class SaleHeaderController {
 public SaleHeader getSaleId(@PathVariable int saleId){
     return service.getSaleById(saleId);
 }
-@GetMapping("/get-sale-by-date")
-    public List<SaleHeader> getSaleByDate(@RequestParam LocalDateTime date){
-    return service.getSaleByDate(date);
+@GetMapping("/get-sale-by-date/{localDateTime}")
+    public List<SaleHeader> getSaleByDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime localDateTime){
+    return service.getSaleByDate(localDateTime);
 }
 @PostMapping("/add-sale")
-    public SaleHeader addSale(@RequestParam int customerId){
-    return service.addSaleHeader(customerId);
+    public SaleHeader addSale(@RequestBody SaleHeader saleHeader){
+    return service.addSaleHeader(saleHeader);
 }
 }

@@ -26,17 +26,17 @@ public class SaleHeaderService {
                 ()-> new NoSuchElementException("Given Sale id not present")
         );
     }
-    public List<SaleHeader> getSaleByDate(LocalDateTime localDateTime ){
+    public List<SaleHeader> getSaleByDate(LocalDateTime localDateTime){
          List<SaleHeader> saleHeaders= saleHeaderRepository.getSaleByDate(localDateTime);
          if (saleHeaders.isEmpty()){
              throw new NoSuchElementException("There is no sale record on "+localDateTime);
          }return saleHeaders;
 
     }
-    public SaleHeader addSaleHeader(int customerId){
-        Customer customer=customerRepository.findById(customerId).orElseThrow(
-                ()->new NoSuchElementException("Given customer id "+customerId+" not present")
+    public SaleHeader addSaleHeader(SaleHeader saleHeader){
+        Customer customer=customerRepository.findById(saleHeader.getCustomerId()).orElseThrow(
+                ()->new NoSuchElementException("Given customer id "+saleHeader.getCustomerId()+" not present")
         );
-        return saleHeaderRepository.addSale(customerId );
+        return saleHeaderRepository.addSale(saleHeader.getCustomerId() );
     }
 }

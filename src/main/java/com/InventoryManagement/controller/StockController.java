@@ -1,6 +1,7 @@
 package com.InventoryManagement.controller;
 
 import com.InventoryManagement.entity.Stock;
+import com.InventoryManagement.exception.DeleteResponse;
 import com.InventoryManagement.exception.NoSuchElementException;
 import com.InventoryManagement.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,14 @@ public class StockController {
         return service.addStock(productId);
     }
     @DeleteMapping("/delete-stock-by/{id}")
-    public ResponseEntity<String > deleteStockById(@PathVariable int id){
+    public ResponseEntity<DeleteResponse> deleteStockById(@PathVariable int id){
         try {
             service.deleteStockById(id);
-            return new  ResponseEntity<>("Stock detail deleted successfully", HttpStatus.OK);
+            DeleteResponse deleteResponse=new DeleteResponse("Stock detail deleted successfully", HttpStatus.OK.value());
+            return new  ResponseEntity<>(deleteResponse, HttpStatus.OK);
         }catch (NoSuchElementException e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+            DeleteResponse deleteResponse=new DeleteResponse(e.getMessage(),HttpStatus.NOT_FOUND.value());
+            return new ResponseEntity<>(deleteResponse,HttpStatus.NOT_FOUND);
         }
 
     }

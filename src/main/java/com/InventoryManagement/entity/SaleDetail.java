@@ -28,7 +28,7 @@ public class SaleDetail {
     @Column(name = "net_amount")
     private BigDecimal netAmount;
     @Column(name = "tax_rate")
-    private float taxRate;
+    private Float taxPrice;
     @Column(name = "tax_amount")
     private BigDecimal taxAmount;
 
@@ -104,12 +104,12 @@ public class SaleDetail {
         this.netAmount = netAmount;
     }
 
-    public float getTaxRate() {
-        return taxRate;
+    public Float getTaxPrice() {
+        return taxPrice;
     }
 
-    public void setTaxRate(float taxRate) {
-        this.taxRate = taxRate;
+    public void setTaxPrice(Float taxPrice) {
+        this.taxPrice = taxPrice;
     }
 
     public BigDecimal getTaxAmount() {
@@ -120,7 +120,7 @@ public class SaleDetail {
         this.taxAmount = taxAmount;
     }
 
-    public SaleDetail(int saleDetailId, int saleId, int productModelID, String serialNumber, BigDecimal unitPrice, int quantity, float discount, BigDecimal discountAmount, BigDecimal netAmount, float taxRate, BigDecimal taxAmount) {
+    public SaleDetail(int saleDetailId, int saleId, int productModelID, String serialNumber, BigDecimal unitPrice, int quantity, float discount, BigDecimal discountAmount, BigDecimal netAmount, float taxPrice, BigDecimal taxAmount) {
         this.saleDetailId = saleDetailId;
         this.saleId = saleId;
         this.productModelID = productModelID;
@@ -130,7 +130,7 @@ public class SaleDetail {
         this.discount = discount;
         this.discountAmount = discountAmount;
         this.netAmount = netAmount;
-        this.taxRate = taxRate;
+        this.taxPrice = taxPrice;
         this.taxAmount = taxAmount;
     }
 
@@ -149,7 +149,7 @@ public class SaleDetail {
                 ", discount=" + discount +
                 ", discountAmount=" + discountAmount +
                 ", netAmount=" + netAmount +
-                ", taxRate=" + taxRate +
+                ", taxPrice=" + taxPrice +
                 ", taxAmount=" + taxAmount +
                 '}';
     }

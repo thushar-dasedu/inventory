@@ -35,10 +35,10 @@ return productSerialNumberRepository.findById(id).orElseThrow(
             throw new NoSuchElementException("Stocks are not present");
         }return serialNumbers;
     }
-    public ProductSerialNumber addSerial(int stockId,String serialNumber){
-        Stock stock=stockRepository.findById(stockId).orElseThrow(
+    public ProductSerialNumber addSerial(ProductSerialNumber serialNumber){
+        Stock stock=stockRepository.findById(serialNumber.getStockId()).orElseThrow(
                 ()-> new NoSuchElementException("Given stock not present")
         );
-        return productSerialNumberRepository.addSerialNumber(stockId,serialNumber);
+        return productSerialNumberRepository.addSerialNumber(serialNumber.getStockId(),serialNumber.getSerialNumber());
     }
 }
