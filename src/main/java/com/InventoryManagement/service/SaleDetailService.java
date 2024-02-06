@@ -4,6 +4,7 @@ import com.InventoryManagement.entity.ProductModel;
 import com.InventoryManagement.entity.ProductSerialNumber;
 import com.InventoryManagement.entity.SaleDetail;
 import com.InventoryManagement.entity.SaleHeader;
+import com.InventoryManagement.exception.BadQuantityAssignException;
 import com.InventoryManagement.exception.NoSuchElementException;
 import com.InventoryManagement.repository.*;
 import jakarta.transaction.Transactional;
@@ -38,7 +39,8 @@ public List<SaleDetail>addSaleDetail(SaleDetail saleDetail){
     // Check if ProductModel exists
    ProductModel productModel= productModelRepository.findById(saleDetail.getProductModelID())
             .orElseThrow(() -> new NoSuchElementException("Given product model id "+saleDetail.getProductModelID()+" not present"));
-    if (productModel.getQuantity()>=saleDetail.getQuantity()&&productModel.getQuantity()!=0){
+
+   if (productModel.getQuantity()>=saleDetail.getQuantity()&&productModel.getQuantity()!=0){
 
 
    Set<Integer> allowedProduct=Set.of(1,2,3,4,5,6,7,8);
@@ -46,15 +48,18 @@ public List<SaleDetail>addSaleDetail(SaleDetail saleDetail){
        ProductSerialNumber serialNumbers= repository.getBySerialNumber(saleDetail.getSerialNumber());
        if (serialNumbers==null){
            throw new NoSuchElementException("Given serial number "+saleDetail.getSerialNumber()+" not present");
-       }int stockId=stockRepository.getStockId(saleDetail.getProductModelID());
+       }if (saleDetail.getQuantity()!=1){
+           throw new BadQuantityAssignException("set quantity value as 1");
+        }
+       int stockId=stockRepository.getStockId(saleDetail.getProductModelID());
        if (stockId==serialNumbers.getStockId()){
            return saleDetailRepository.addSaleDetail(
                    saleDetail.getSaleId(),
                    saleDetail.getProductModelID(),
                    saleDetail.getSerialNumber(),
                    saleDetail.getQuantity(),
-                   saleDetail.getDiscount(),
-                   saleDetail.getTaxPrice()
+                   saleDetail.getDiscount()
+
            );
        }throw new NoSuchElementException("invalid serial number");
 
@@ -63,8 +68,8 @@ public List<SaleDetail>addSaleDetail(SaleDetail saleDetail){
             saleDetail.getSaleId(),
             saleDetail.getProductModelID(),
             saleDetail.getQuantity(),
-            saleDetail.getDiscount(),
-            saleDetail.getTaxPrice());  }
+            saleDetail.getDiscount()
+            ); }
     throw new NoSuchElementException("Product not available");
 }
 public void deleteSaleDetailBySale(int saleId){

@@ -28,13 +28,13 @@ public class StockService {
                 ()-> new NoSuchElementException("Given stock id "+stockId+" not present")
         );
     }
-    public Stock addStock(int productId){
-        ProductBrand brand=productBrandRepository.findById(productId).orElseThrow(
-                ()-> new NoSuchElementException("Given product id "+productId+" not present")
+    public Stock addStock(Stock stock){
+        ProductBrand brand=productBrandRepository.findById(stock.getProductId()).orElseThrow(
+                ()-> new NoSuchElementException("Given product id "+stock.getProductId()+" not present")
         );
-        Stock stock=stockRepository.getStockByProductId(productId);
-        if( stock==null){
-            return stockRepository.addStockByProductId(productId);
+        Stock stock1=stockRepository.getStockByProductId(stock.getProductId());
+        if( stock1==null){
+            return stockRepository.addStockByProductId(stock.getProductId());
         }
        throw new ElementAlreadyExistsException("Given Already exists in stock");
     }

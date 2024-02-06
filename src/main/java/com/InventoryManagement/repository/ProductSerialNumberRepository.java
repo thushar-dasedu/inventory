@@ -1,7 +1,9 @@
 package com.InventoryManagement.repository;
 
 import com.InventoryManagement.entity.ProductSerialNumber;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -18,4 +20,9 @@ public interface ProductSerialNumberRepository extends JpaRepository<ProductSeri
 
     @Query(value = "select * from product_serial_number where serial_number=:serialNumber",nativeQuery = true)
     public ProductSerialNumber getBySerialNumber(@Param("serialNumber")String serialNumber);
+
+    @Transactional
+    @Modifying
+    @Query(value = "delete from product_serial_number where serial_number=:serialNumber",nativeQuery = true)
+    void deleteBySerialNumber(@Param("serialNumber")String serialNumber);
 }

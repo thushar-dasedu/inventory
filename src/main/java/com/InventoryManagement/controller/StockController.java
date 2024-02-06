@@ -24,9 +24,9 @@ public class StockController {
     public Stock getStockById(@PathVariable int id){
         return service.getStockById(id);
     }
-    @PostMapping("/add-stock/{productId}")
-    public Stock addStock(@PathVariable int productId){
-        return service.addStock(productId);
+    @PostMapping("/add-stock")
+    public Stock addStock(@RequestBody Stock stock){
+        return service.addStock(stock);
     }
     @DeleteMapping("/delete-stock-by/{id}")
     public ResponseEntity<DeleteResponse> deleteStockById(@PathVariable int id){

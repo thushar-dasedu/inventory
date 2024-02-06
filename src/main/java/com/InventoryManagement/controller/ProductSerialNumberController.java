@@ -1,8 +1,12 @@
 package com.InventoryManagement.controller;
 
 import com.InventoryManagement.entity.ProductSerialNumber;
+import com.InventoryManagement.exception.DeleteResponse;
+import com.InventoryManagement.exception.NoSuchElementException;
 import com.InventoryManagement.service.ProductSerialNumberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,5 +31,21 @@ public class ProductSerialNumberController {
     @PostMapping("/add-serial-number")
     public ProductSerialNumber addSerialNumber(@RequestBody ProductSerialNumber serialNumber){
         return service.addSerial(serialNumber);
+    }
+    @DeleteMapping("/delete-serial-number/{serialNumber}")
+    public ResponseEntity<DeleteResponse>deleteSerialNumber(@PathVariable String serialNumber){
+        try {
+            service.deleteSerialNumber(serialNumber);
+            DeleteResponse deleteResponse=new DeleteResponse("serial number detail deleted success fully", HttpStatus.OK.value());
+            return new ResponseEntity<>(deleteResponse,HttpStatus.OK);
+        }catch (NoSuchElementException e){
+            DeleteResponse deleteResponse=new DeleteResponse(e.getMessage(),HttpStatus.NOT_FOUND.value());
+            return new ResponseEntity<>(deleteResponse,HttpStatus.NOT_FOUND);
+        }
+
+    }
+    @GetMapping("/get-serial-by/{serial}")
+    public ProductSerialNumber getSerialBySerial(@PathVariable String serial){
+        return service.getBySerial(serial);
     }
 }

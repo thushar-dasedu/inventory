@@ -2,6 +2,7 @@ package com.InventoryManagement.service;
 
 import com.InventoryManagement.entity.ProductSerialNumber;
 import com.InventoryManagement.entity.Stock;
+import com.InventoryManagement.exception.ElementAlreadyExistsException;
 import com.InventoryManagement.exception.NoSuchElementException;
 import com.InventoryManagement.repository.ProductSerialNumberRepository;
 import com.InventoryManagement.repository.StockRepository;
@@ -39,6 +40,25 @@ return productSerialNumberRepository.findById(id).orElseThrow(
         Stock stock=stockRepository.findById(serialNumber.getStockId()).orElseThrow(
                 ()-> new NoSuchElementException("Given stock not present")
         );
+        ProductSerialNumber productSerialNumber=productSerialNumberRepository.getBySerialNumber(serialNumber.getSerialNumber());
+        if (productSerialNumber.getSerialNumber().equals(serialNumber.getSerialNumber())){
+            throw new ElementAlreadyExistsException("Given serial number "+serialNumber.getSerialNumber()+" already exists");
+        }
+
         return productSerialNumberRepository.addSerialNumber(serialNumber.getStockId(),serialNumber.getSerialNumber());
+    }
+    public void deleteSerialNumber(String serialNumber){
+        ProductSerialNumber serial=productSerialNumberRepository.getBySerialNumber(serialNumber);
+        if (  serial ==null){
+            throw new NoSuchElementException("Given product serial number "+serialNumber+" not present");
+        }productSerialNumberRepository.deleteBySerialNumber(serialNumber);
+
+    }
+    public ProductSerialNumber getBySerial(String serialNumber){
+        ProductSerialNumber productSerialNumber= productSerialNumberRepository.getBySerialNumber(serialNumber);
+        if (productSerialNumber==null){
+            throw new NoSuchElementException("given serial number "+serialNumber+" not present");
+        }return productSerialNumber;
+
     }
 }

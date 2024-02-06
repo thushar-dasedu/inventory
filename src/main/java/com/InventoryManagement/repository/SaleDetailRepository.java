@@ -13,22 +13,22 @@ import java.util.List;
 
 @Repository
 public interface SaleDetailRepository extends JpaRepository<SaleDetail,Integer> {
-    @Query(value = "call addSaleDetailInfo(:saleId,:productModel,:serialNumber,:Quantity,:Discount,:TaxRate)", nativeQuery = true)
+    @Query(value = "call addSaleDetailInfo(:saleId,:productModel,:serialNumber,:Quantity,:Discount )", nativeQuery = true)
     List<SaleDetail> addSaleDetail(
             @Param("saleId") int saleId,
             @Param("productModel") int productModel,
             @Param("serialNumber") String serialNumber,
             @Param("Quantity") int Quantity,
-            @Param("Discount") float Discount,
-            @Param("TaxRate") float TaxRate
+            @Param("Discount") float Discount
+
     );
-    @Query(value = "call addSaleDetailWithoutSerial(:saleId,:productId,:Quantity,:Discount,:taxRate)",nativeQuery = true)
+    @Query(value = "call addSaleDetailWithoutSerial(:saleId,:productId,:Quantity,:Discount )",nativeQuery = true)
     List<SaleDetail> addSaleWithoutSerial(
             @Param("saleId")int saleId,
             @Param("productId")int productId,
             @Param("Quantity")int Quantity,
-            @Param("Discount")float Discount,
-            @Param("taxRate")float taxRate);
+            @Param("Discount")float Discount
+            );
 @Transactional
 @Modifying
 @Query(value = "call deleteSaleDetails(:saleId)",nativeQuery = true)
