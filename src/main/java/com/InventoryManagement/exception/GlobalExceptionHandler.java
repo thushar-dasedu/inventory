@@ -30,14 +30,19 @@ public class GlobalExceptionHandler {
     public ErrorResponse handelElementAlreadyExists(ElementAlreadyExistsException ex){
     return new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
 }
-@ExceptionHandler(value = BadQuantityAssignException.class)
+@ExceptionHandler(value = BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleBadQuantityAssign(BadQuantityAssignException e){
+    public ErrorResponse handleBadQuantityAssign(BadRequestException e){
     return new ErrorResponse(HttpStatus.BAD_REQUEST.value(),e.getMessage());
 }
 @ExceptionHandler(value = NotNullException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleNotNullException(NotNullException e){
+    return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+}
+@ExceptionHandler(value = IllegalArgumentException.class)
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleIlligalArugumentException(IllegalArgumentException e){
     return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
 }
 }

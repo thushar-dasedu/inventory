@@ -1,6 +1,8 @@
 package com.InventoryManagement.controller;
 
+import com.InventoryManagement.entity.AllSalesInformation;
 import com.InventoryManagement.entity.SaleDetail;
+import com.InventoryManagement.entity.SaleModel;
 import com.InventoryManagement.exception.DeleteResponse;
 import com.InventoryManagement.exception.NoSuchElementException;
 import com.InventoryManagement.service.SaleDetailService;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/sale-detail")
@@ -21,9 +24,11 @@ public class SaleDetailController {
         return service.getSaleDetail();
     }
     @PostMapping("/add-sale-detail")
-    public List<SaleDetail> addSale(@RequestBody SaleDetail saleDetail){
-        return service.addSaleDetail(saleDetail);
+    public  SaleModel  addSale(@RequestBody SaleModel saleModel) {
+
+        return service.addSaleDetail(saleModel);
     }
+
     @DeleteMapping("/delete-sale-detail/{saleId}")
     public ResponseEntity<DeleteResponse> deleteSale(@PathVariable int saleId){
         try {
@@ -49,4 +54,11 @@ public class SaleDetailController {
         }
 
     }
+    @GetMapping("/get-sale")
+    public List<AllSalesInformation > getAllSale(){
+        return service.getAllSale();
+
+    }
+
+
 }

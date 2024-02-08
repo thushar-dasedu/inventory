@@ -1,6 +1,6 @@
 package com.InventoryManagement.exception;
 
-public class BadQuantityAssignException extends RuntimeException{
+public class BadRequestException extends RuntimeException{
     private String message;
 
     @Override
@@ -11,9 +11,9 @@ public class BadQuantityAssignException extends RuntimeException{
     public void setMessage(String message) {
         this.message = message;
     }
-    public BadQuantityAssignException(){
+    public BadRequestException(){
     }
-    public BadQuantityAssignException(String message){
+    public BadRequestException(String message){
         this.message=message;
     }
 }

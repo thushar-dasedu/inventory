@@ -28,10 +28,13 @@ public class ProductSerialNumberController {
     public List<ProductSerialNumber> getSerialByStock(@PathVariable int stockId){
         return service.getSerialByStock(stockId);
     }
+
     @PostMapping("/add-serial-number")
     public ProductSerialNumber addSerialNumber(@RequestBody ProductSerialNumber serialNumber){
         return service.addSerial(serialNumber);
     }
+
+
     @DeleteMapping("/delete-serial-number/{serialNumber}")
     public ResponseEntity<DeleteResponse>deleteSerialNumber(@PathVariable String serialNumber){
         try {

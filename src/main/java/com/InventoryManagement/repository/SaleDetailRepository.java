@@ -1,6 +1,6 @@
 package com.InventoryManagement.repository;
 
-import com.InventoryManagement.entity.ProductSerialNumber;
+import com.InventoryManagement.entity.AllSalesInformation;
 import com.InventoryManagement.entity.SaleDetail;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,9 +10,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public interface SaleDetailRepository extends JpaRepository<SaleDetail,Integer> {
+
     @Query(value = "call addSaleDetailInfo(:saleId,:productModel,:serialNumber,:Quantity,:Discount )", nativeQuery = true)
     List<SaleDetail> addSaleDetail(
             @Param("saleId") int saleId,
@@ -28,7 +30,15 @@ public interface SaleDetailRepository extends JpaRepository<SaleDetail,Integer> 
             @Param("productId")int productId,
             @Param("Quantity")int Quantity,
             @Param("Discount")float Discount
-            );
+    );
+
+    @Query(value = "select * from sale_detail where sale_id=:saleId",nativeQuery = true)
+      List<SaleDetail > findBySaleId(@Param("saleId")int saleId);
+
+    @Query(value = "call returnSale()",nativeQuery = true)
+      List<Object[]> getSale();
+
+
 @Transactional
 @Modifying
 @Query(value = "call deleteSaleDetails(:saleId)",nativeQuery = true)

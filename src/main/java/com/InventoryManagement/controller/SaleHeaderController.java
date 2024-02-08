@@ -27,8 +27,5 @@ public SaleHeader getSaleId(@PathVariable int saleId){
     public List<SaleHeader> getSaleByDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime localDateTime){
     return service.getSaleByDate(localDateTime);
 }
-@PostMapping("/add-sale")
-    public SaleHeader addSale(@RequestBody SaleHeader saleHeader){
-    return service.addSaleHeader(saleHeader);
-}
+
 }
