@@ -11,7 +11,7 @@ public class PurchaseDetail {
     @Id
     @Column(name = "purchase_detail_id")
     private int purchaseDetailId;
-@Column(name = "purchase-id")
+@Column(name = "purchase_id")
     private int purchaseId;
 @Column(name = "model_id")
     private int modelId;
@@ -20,13 +20,13 @@ public class PurchaseDetail {
 @Column(name = "quantity")
     private int quantity;
 @Column(name = "discount")
-    private Float discount;
+    private float discount;
 @Column(name = "discount_amount")
     private BigDecimal discountAmount;
 @Column(name = "net_amount")
     private BigDecimal netAmount;
 @Column(name = "tax_rate")
-    private Float taxRate;
+    private float taxRate;
 @Column(name = "tax_amount")
     private BigDecimal taxAmount;
 

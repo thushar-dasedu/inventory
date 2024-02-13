@@ -68,8 +68,8 @@ public void deleteSaleById(int saleDetailId){
                     .orElseThrow(() -> new NoSuchElementException("Given product model id " + saleDetail.getProductModelID()+ " not present"));
 
             if (productModel.getQuantity() >= saleDetail.getQuantity() &&(productModel.getQuantity()-saleDetail.getQuantity())  != 0) {
-                Set<Integer> allowedProduct = Set.of(1, 2, 3, 4, 5, 6, 7, 8);
-                if (allowedProduct.contains(saleDetail.getProductModelID())) {
+
+                if (saleDetailRepository.getContainSerialNumber(saleDetail.getProductModelID())) {
                     if(saleDetail.getSerialNumber()==null){
                         throw new NotNullException("Please enter product serial number");
                     }

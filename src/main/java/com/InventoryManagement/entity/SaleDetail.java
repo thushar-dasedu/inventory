@@ -28,7 +28,7 @@ public class SaleDetail {
     @Column(name = "net_amount")
     private BigDecimal netAmount;
     @Column(name = "tax_rate")
-    private Float taxPrice;
+    private float taxPrice;
     @Column(name = "tax_amount")
     private BigDecimal taxAmount;
 
@@ -104,7 +104,7 @@ public class SaleDetail {
         this.netAmount = netAmount;
     }
 
-    public Float getTaxPrice() {
+    public float getTaxPrice() {
         return taxPrice;
     }
 

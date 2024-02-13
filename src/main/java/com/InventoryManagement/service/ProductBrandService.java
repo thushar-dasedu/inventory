@@ -34,5 +34,11 @@ public class ProductBrandService {
                 ()->new java.util.NoSuchElementException("given product id not present")
         );
          productBrandRepository.deleteById(id);}
+    public ProductBrand updateProduct(int productId, ProductBrand productBrand){
+        productBrandRepository.findById(productId).orElseThrow(
+                ()->new NoSuchElementException("Given product Id "+productId+" not present")
+        );
+       return productBrandRepository.save(productBrand);
+    }
 
 }

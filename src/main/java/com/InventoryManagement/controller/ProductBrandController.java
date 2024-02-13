@@ -40,5 +40,10 @@ public class ProductBrandController {
         }
 
     }
+    @PutMapping("/update-product/{productId}")
+    public ProductBrand updateBrand(@PathVariable int productId,@RequestBody ProductBrand productBrand){
+        return service.updateProduct(productId,productBrand);
+    }
+
 
 }

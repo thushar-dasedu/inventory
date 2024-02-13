@@ -13,15 +13,8 @@ public class SaleModel {
 
     private List<SaleDetail> saleDetailModels=new ArrayList<SaleDetail>();
 
-    private List<SaleHeader> saleHeaders=new ArrayList<SaleHeader>();
 
-    public List<SaleHeader> getSaleHeaders() {
-        return saleHeaders;
-    }
 
-    public void setSaleHeaders(List<SaleHeader> saleHeaders) {
-        this.saleHeaders = saleHeaders;
-    }
 
     public int getSaleId() {
         return saleId;

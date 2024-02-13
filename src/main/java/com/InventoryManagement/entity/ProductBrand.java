@@ -12,6 +12,17 @@ public class ProductBrand {
 @Column(name = "brand_name")
     private String brandName;
 
+@Column(name = "contain_serial_number")
+private boolean containSerialNumber;
+
+    public boolean isContainSerialNumber() {
+        return containSerialNumber;
+    }
+
+    public void setContainSerialNumber(boolean containSerialNumber) {
+        this.containSerialNumber = containSerialNumber;
+    }
+
     public int getProductId() {
         return productId;
     }
@@ -31,6 +42,12 @@ public class ProductBrand {
     public ProductBrand(int productId, String brandName) {
         this.productId = productId;
         this.brandName = brandName;
+    }
+
+    public ProductBrand(int productId, String brandName, boolean containSerialNumber) {
+        this.productId = productId;
+        this.brandName = brandName;
+        this.containSerialNumber =containSerialNumber;
     }
 
     public ProductBrand() {

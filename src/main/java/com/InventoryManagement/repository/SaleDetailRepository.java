@@ -43,4 +43,7 @@ public interface SaleDetailRepository extends JpaRepository<SaleDetail,Integer> 
 @Modifying
 @Query(value = "call deleteSaleDetails(:saleId)",nativeQuery = true)
     void deleteSaleDetail(@Param("saleId")int saleId);
+
+@Query(value = "select contain_serial_number from product_brand b inner join product_model m on m.product_id=b.product_id where m.model_id=:modelId ",nativeQuery = true)
+    boolean getContainSerialNumber(@Param("modelId")int modelId);
 }
