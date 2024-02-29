@@ -1,6 +1,7 @@
 package com.InventoryManagement.controller;
 
 import com.InventoryManagement.entity.ProductModel;
+import com.InventoryManagement.entity.ViewProducts;
 import com.InventoryManagement.exception.DeleteResponse;
 import com.InventoryManagement.exception.NoSuchElementException;
 import com.InventoryManagement.service.ProductModelService;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-
+@CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/pro-model")
 public class ProductModelController {
@@ -49,5 +50,9 @@ public class ProductModelController {
             return new ResponseEntity<>(deleteResponse,HttpStatus.NOT_FOUND);
         }
 
+    }
+    @GetMapping("/view-products/{productId}")
+    public List<ViewProducts> viewProducts(@PathVariable int productId){
+     return    service.listProduct(productId);
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/supplier")
 public class SupplierController {
@@ -45,5 +46,9 @@ public class SupplierController {
             return new ResponseEntity<>(deleteResponse,HttpStatus.NOT_FOUND);
         }
 
+}
+@PutMapping("/update-supplier/{id}")
+    public Supplier updateSupplier(@PathVariable int id,@RequestBody Supplier supplier){
+        return service.updateSupplier(id,supplier);
 }
 }

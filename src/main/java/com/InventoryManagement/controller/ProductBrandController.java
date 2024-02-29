@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-
+@CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/product")
 public class ProductBrandController {
@@ -45,5 +45,8 @@ public class ProductBrandController {
         return service.updateProduct(productId,productBrand);
     }
 
-
+@GetMapping("/check-serial-number/{modelId}")
+    public boolean checkSerialNumber(@PathVariable int modelId){
+        return service.checkSerialNumber(modelId);
+}
 }

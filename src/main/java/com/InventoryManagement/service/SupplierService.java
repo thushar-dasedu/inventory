@@ -41,4 +41,13 @@ public void deleteSupplierById(int supplierId){
         );
         repository.delete(supplier);
 }
+public Supplier updateSupplier(int supplierId,Supplier supplier){
+        repository.findById(supplierId).orElseThrow(
+                ()->new NoSuchElementException("Given supplier id not present")
+        );
+    List<Supplier> suppliers=repository.getSupplierByMobile(supplier.getMobileNumber());
+
+        return repository.save(supplier);
+
+}
 }

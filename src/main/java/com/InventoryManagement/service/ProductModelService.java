@@ -2,6 +2,7 @@ package com.InventoryManagement.service;
 
 import com.InventoryManagement.entity.ProductBrand;
 import com.InventoryManagement.entity.ProductModel;
+import com.InventoryManagement.entity.ViewProducts;
 import com.InventoryManagement.exception.ElementAlreadyExistsException;
 import com.InventoryManagement.exception.NoSuchElementException;
 import com.InventoryManagement.repository.ProductBrandRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -68,5 +70,27 @@ public class ProductModelService {
                 ()->new NoSuchElementException("Given model id"+modelId+" not present")
         );
         productModelRepository.delete(model);
+    }
+
+    public List<ViewProducts> listProduct(int productId){
+        productBrandRepository.findById(productId).orElseThrow(
+                ()->new NoSuchElementException("Given  product id "+productId+" not present")
+        );
+       List<Object[]> viewProducts= productModelRepository.viewProduct(productId);
+       List<ViewProducts> viewProduct=new ArrayList<>();
+         for (Object[] object:viewProducts){
+             int modelId=(int) object[0];
+             String brandName=(String) object[1];
+             String productModelName=(String) object[2];
+             BigDecimal unitPrice=(BigDecimal) object[3];
+             float tax=(float) object[4];
+             int quantity=(int) object[5];
+             ViewProducts products=new ViewProducts(modelId,brandName,productModelName,unitPrice,tax,quantity);
+             viewProduct.add(products);
+
+
+
+         }
+return viewProduct;
     }
 }

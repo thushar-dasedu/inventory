@@ -44,8 +44,8 @@ return productSerialNumberRepository.findById(id).orElseThrow(
          if (serialNumber == null || serialNumber.getStockId() <= 0 || serialNumber.getSerialNumber() == null) {
             throw new IllegalArgumentException("Invalid serial number object");
         }
-        Set<Integer> allowedStock=Set.of(1,2,3,4);
-         if (allowedStock.contains(serialNumber.getStockId())){
+
+         if ( productSerialNumberRepository.getSerialCheck(serialNumber.getStockId())){
 
 
         // Check if the stock exists

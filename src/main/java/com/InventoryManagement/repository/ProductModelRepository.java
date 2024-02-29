@@ -1,6 +1,7 @@
 package com.InventoryManagement.repository;
 
 import com.InventoryManagement.entity.ProductModel;
+import com.InventoryManagement.entity.ViewProducts;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,4 +18,10 @@ List<ProductModel> getModelByProductModel(@Param("productName")String productNam
 @Query(value = "call addProductModelDetail(:productId,:productModel,:unitPrice,:Tax,:Quantity)",nativeQuery = true)
     public ProductModel addProductModel(@Param("productId")int productId, @Param("productModel")String productModel
 , @Param("unitPrice")BigDecimal unitPrice,@Param("Tax")float Tax,@Param("Quantity")int Quantity);
+
+
+@Query(value = "call viewProducts(:productId)",nativeQuery = true)
+    List<Object[]> viewProduct(@Param("productId")int productId);
 }
+
+

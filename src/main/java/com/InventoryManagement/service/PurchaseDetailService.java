@@ -58,7 +58,7 @@ public List<AllPurchaseInfo> getAllPurchase(){
 
     }return allPurchaseInfo;
 }
-@Transactional
+ @Transactional
     public PurchaseModel addPurchaseInformation(PurchaseModel purchaseModel) {
          int supplierId = purchaseModel.getSupplierId();
         List<PurchaseDetailModel> purchaseDetailModels = purchaseModel.getPurchaseDetailModels();
@@ -78,7 +78,11 @@ public List<AllPurchaseInfo> getAllPurchase(){
             );
 
 
-             if (purchaseDetailRepository.getContainSerial(detail.getModelId())) {
+             if (purchaseDetailRepository.
+
+
+
+                     getContainSerial(detail.getModelId())) {
                  purchaseDetailRepository.addPurchaseDetail(
                         purchaseHeader.getPurchaseId(),
 
@@ -192,51 +196,44 @@ public List<AllPurchaseInfo> getAllPurchase(){
     purchaseHeaderRepository.findById(purchaseId).orElseThrow(
             ()->new NoSuchElementException("Given purchase id "+purchaseId+" not present")
     );
+    int purchaseId1=purchaseModel.getPurchaseId();
+    int supplierId=purchaseModel.getSupplierId();
+    LocalDateTime purchaseDateTime=purchaseModel.getPurchaseDateTime();
 
+
+   List<PurchaseDetailModel> purchaseDetailInfo =new ArrayList<>();
     List<PurchaseDetailModel> purchaseDetailModels=purchaseModel.getPurchaseDetailModels();
-    PurchaseHeader header=new PurchaseHeader();
-    header.setPurchaseId(purchaseModel.getPurchaseId());
-    header.setSupplierId(purchaseModel.getSupplierId());
-    header.setPurchaseDateTime(purchaseModel.getPurchaseDateTime());
-   PurchaseHeader purchaseHeader= purchaseHeaderRepository.save(header);
-   List<PurchaseDetail>purchaseDetailModelList=new ArrayList<>();
     for (PurchaseDetailModel purchaseDetailModel:purchaseDetailModels){
-        PurchaseDetail purchaseDetail=new PurchaseDetail();
+      int purchaseDetailId=purchaseDetailModel.getPurchaseDetailId();
+      int modelId= purchaseDetailModel.getModelId();
+      BigDecimal unitPrice= purchaseDetailModel.getUnitPrice();
+      int quantity= purchaseDetailModel.getQuantity();
+      float discountRate= purchaseDetailModel.getDiscount();
+      float taxRate= purchaseDetailModel.getTaxRate();
+      PurchaseDetail purchaseDetail=purchaseDetailRepository.findById(purchaseDetailId).get();
+        int newQuantity=(quantity-purchaseDetail.getQuantity());
 
-        purchaseDetail.setPurchaseDetailId(purchaseDetailModel.getPurchaseDetailId());
-        purchaseDetail.setPurchaseId(purchaseDetailModel.getPurchaseId());
-        purchaseDetail.setModelId(purchaseDetailModel.getModelId());
-        purchaseDetail.setUnitPrice(purchaseDetailModel.getUnitPrice());
-        purchaseDetail.setQuantity(purchaseDetailModel.getQuantity());
-        purchaseDetail.setDiscount(purchaseDetailModel.getDiscount());
-        purchaseDetail.setDiscountAmount(purchaseDetailModel.getDiscountAmount());
-        purchaseDetail.setNetAmount(purchaseDetailModel.getNetAmount());
-        purchaseDetail.setTaxRate(purchaseDetailModel.getTaxRate());
-        purchaseDetail.setTaxAmount(purchaseDetailModel.getTaxAmount());
-        purchaseDetailRepository.save(purchaseDetail);
-        purchaseDetailModelList.add(purchaseDetail);
+       List<PurchaseDetail> purchaseDetails1=purchaseDetailRepository.updatePurchaseInformation(purchaseId1,supplierId,purchaseDateTime,purchaseDetailId,modelId,unitPrice,quantity,discountRate,taxRate);
+       for (PurchaseDetail purchaseDetail1:purchaseDetails1){
+           PurchaseDetailModel purchaseDetailModel1=new PurchaseDetailModel();
+           purchaseDetailModel1.setPurchaseDetailId(purchaseDetail1.getPurchaseDetailId());
+           purchaseDetailModel1.setPurchaseId(purchaseDetail1.getPurchaseId());
+           purchaseDetailModel1.setModelId(purchaseDetail1.getModelId());
+           purchaseDetailModel1.setUnitPrice(purchaseDetail1.getUnitPrice());
+           purchaseDetailModel1.setQuantity(purchaseDetail1.getQuantity());
+           purchaseDetailModel1.setDiscount(purchaseDetail1.getDiscount());
+           purchaseDetailModel1.setDiscountAmount(purchaseDetail1.getDiscountAmount());
+           purchaseDetailModel1.setNetAmount(purchaseDetail1.getNetAmount());
+           purchaseDetailModel1.setTaxRate(purchaseDetail1.getTaxRate());
+           purchaseDetailModel1.setTaxAmount(purchaseDetail1.getTaxAmount());
+           purchaseDetailInfo.add(purchaseDetailModel1);
+       }
+        purchaseDetailRepository.updateQuantity(modelId,newQuantity);
 
-    }
-    purchaseModel.setPurchaseId(purchaseHeader.getPurchaseId());
-    purchaseModel.setSupplierId(purchaseHeader.getSupplierId());
-    purchaseModel.setPurchaseDateTime(purchaseHeader.getPurchaseDateTime());
-    List<PurchaseDetailModel> purchaseDetailModelList1=new ArrayList<>();
-    for (PurchaseDetail detail:purchaseDetailModelList){
-        PurchaseDetailModel purchaseDetailModel=new PurchaseDetailModel();
-        purchaseDetailModel.setPurchaseDetailId(detail.getPurchaseDetailId());
-        purchaseDetailModel.setPurchaseId(detail.getPurchaseId());
-        purchaseDetailModel.setModelId(detail.getModelId());
-        purchaseDetailModel.setUnitPrice(detail.getUnitPrice());
-        purchaseDetailModel.setQuantity(detail.getQuantity());
-        purchaseDetailModel.setDiscount(detail.getDiscount());
-        purchaseDetailModel.setDiscountAmount(detail.getDiscountAmount());
-        purchaseDetailModel.setNetAmount(detail.getNetAmount());
-        purchaseDetailModel.setTaxRate(detail.getTaxRate());
-        purchaseDetailModel.setTaxAmount(detail.getTaxAmount());
-        purchaseDetailModelList1.add(purchaseDetailModel);
-    }
-    purchaseModel.setPurchaseDetailModels(purchaseDetailModelList1);
-    return purchaseModel;
+    } purchaseModel.setPurchaseId(purchaseId1);
+        purchaseModel.setSupplierId(supplierId);
+        purchaseModel.setPurchaseDateTime(purchaseDateTime);
+         purchaseModel.setPurchaseDetailModels(purchaseDetailInfo);
+        return purchaseModel;}
 
     }
-}

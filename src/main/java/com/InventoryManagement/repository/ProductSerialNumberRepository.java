@@ -29,6 +29,6 @@ public interface ProductSerialNumberRepository extends JpaRepository<ProductSeri
     @Query(value = "delete from product_serial_number where serial_number=:serialNumber",nativeQuery = true)
     void deleteBySerialNumber(@Param("serialNumber")String serialNumber);
 
-    @Query(value = "select contain_serial_number from product_brand where product_id=:productId",nativeQuery = true)
-boolean getSerialCheck(@Param("productId")int productId);
+    @Query(value = "select p.contain_serial_number from product_brand p inner join stock s on p.product_id=s.product_id where s.stock_id=:stockId",nativeQuery = true)
+boolean getSerialCheck(@Param("stockId")int stockId);
 }

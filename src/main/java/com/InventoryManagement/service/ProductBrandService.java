@@ -5,6 +5,7 @@ import com.InventoryManagement.entity.ProductBrand;
 import com.InventoryManagement.exception.ElementAlreadyExistsException;
 import com.InventoryManagement.exception.NoSuchElementException;
 import com.InventoryManagement.repository.ProductBrandRepository;
+import com.InventoryManagement.repository.ProductModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,8 @@ import java.util.List;
 public class ProductBrandService {
     @Autowired
     private ProductBrandRepository productBrandRepository;
+    @Autowired
+    private ProductModelRepository productModelRepository;
     public ProductBrand getProductById(int productId){
         return productBrandRepository.findById(productId).orElseThrow(
                 ()->new  NoSuchElementException("Given product id "+productId+" not present"));
@@ -40,5 +43,8 @@ public class ProductBrandService {
         );
        return productBrandRepository.save(productBrand);
     }
-
+public boolean checkSerialNumber(int modelId){
+        productModelRepository.findById(modelId).orElseThrow(()->new NoSuchElementException("given model id "+modelId+" not present"));
+        return  productBrandRepository.containSerialNumber(modelId);
+}
 }

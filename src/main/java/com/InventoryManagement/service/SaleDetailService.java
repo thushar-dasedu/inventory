@@ -135,4 +135,6 @@ public List<AllSalesInformation> getAllSale(){
          allSalesInfo.add(allSalesInformation);
      }return allSalesInfo ;
 }
+
+
 }
