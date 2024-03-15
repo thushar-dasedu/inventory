@@ -1,20 +1,26 @@
 package com.InventoryManagement.service;
 
 import com.InventoryManagement.entity.Customer;
+import com.InventoryManagement.entity.Login;
+import com.InventoryManagement.exception.LoginMessage;
 import com.InventoryManagement.exception.MobileNumberAndEmailExistsException;
 import com.InventoryManagement.exception.MobileNumberNotFoundException;
 import com.InventoryManagement.exception.NoSuchElementException;
 import com.InventoryManagement.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
 public class CustomerService {
 @Autowired
     private CustomerRepository customerRepository;
+@Autowired
+private PasswordEncoder passwordEncoder;
 
 public Customer getById(int  id){
     return customerRepository.findById(id).orElseThrow(()->new NoSuchElementException("NO CUSTOMER PRESENT WITH ID "+id));
@@ -23,7 +29,9 @@ public Customer addCustomer(Customer customer) {
 
     List<Customer> cust=customerRepository.getCustomerByMobileNumber(customer.getMobileNumber());
     if (cust.isEmpty()){
-       return customerRepository.save(customer);
+        Customer customer1=new Customer(customer.getCustomerId(),customer.getCustomerName(),customer.getCustomerAddress(),customer.getMobileNumber(),customer.getEmail(),this.passwordEncoder.encode(customer.getPassword()));
+
+       return customerRepository.save(customer1);
     }else {
         throw new MobileNumberAndEmailExistsException("given mobile number and email already exists");
     }
@@ -57,4 +65,25 @@ public Customer updateCustomerById(int customerId,Customer customer){
 
    }return customerRepository.save(customer1);
 }
+    public LoginMessage  loginEmployee(Login loginDTO) {
+        String msg = "";
+        Customer employee1 = customerRepository.findByEmail(loginDTO.getEmail());
+        if (employee1 != null) {
+            String password = loginDTO.getPassword();
+            String encodedPassword = employee1.getPassword();
+            Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
+            if (isPwdRight) {
+                Optional<Customer> employee = customerRepository.findOneByEmailAndPassword(loginDTO.getEmail(), encodedPassword);
+                if (employee.isPresent()) {
+                    return new LoginMessage("Login Success", true);
+                } else {
+                    return new LoginMessage("Login Failed", false);
+                }
+            } else {
+                return new LoginMessage("password Not Match", false);
+            }
+        }else {
+            return new LoginMessage("Email not exits", false);
+        }
+    }
 }

@@ -17,6 +17,9 @@ public class Customer {
     private String mobileNumber;
     @Column(name = "email")
     private String email;
+    @Column(name = "password")
+    private String password;
+
 
     public int getCustomerId() {
         return customerId;
@@ -58,12 +61,21 @@ public class Customer {
         this.email = email;
     }
 
-    public Customer(int customerId, String customerName, String customerAddress, String mobileNumber, String email) {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Customer(int customerId, String customerName, String customerAddress, String mobileNumber, String email, String password) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.customerAddress = customerAddress;
         this.mobileNumber = mobileNumber;
         this.email = email;
+        this.password = password;
     }
 
     public Customer() {
@@ -77,6 +89,7 @@ public class Customer {
                 ", customerAddress='" + customerAddress + '\'' +
                 ", mobileNumber='" + mobileNumber + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }

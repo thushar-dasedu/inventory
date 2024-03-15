@@ -1,7 +1,9 @@
 package com.InventoryManagement.controller;
 
 import com.InventoryManagement.entity.Customer;
+import com.InventoryManagement.entity.Login;
 import com.InventoryManagement.exception.DeleteResponse;
+import com.InventoryManagement.exception.LoginMessage;
 import com.InventoryManagement.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +15,7 @@ import java.util.NoSuchElementException;
 @CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/customer")
-public class CustomerController {
+public class   CustomerController {
     @Autowired
     private CustomerService service;
     @PostMapping("/add-customer")
@@ -50,6 +52,13 @@ public class CustomerController {
     @PutMapping("/update-customer-by/{id}")
     public Customer updateCustomer(@PathVariable int id,@RequestBody Customer customer){
         return service.updateCustomerById(id,customer);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginCustomer(@RequestBody Login loginDto){
+        LoginMessage loginMessage =service.loginEmployee(loginDto);
+        return ResponseEntity.ok(loginMessage);
+
     }
 
 }
