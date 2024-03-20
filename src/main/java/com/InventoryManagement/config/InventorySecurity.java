@@ -31,7 +31,8 @@ public class InventorySecurity {
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http)throws Exception{
-        http.authorizeHttpRequests(request->request.requestMatchers("/customer/add-customer","/customer/login").hasAnyRole("Admin").anyRequest().authenticated())
+        http.authorizeHttpRequests(request->request
+                        .anyRequest().hasAnyRole("Admin"))
                 .csrf(csrf->csrf.disable())
                 .httpBasic(Customizer.withDefaults());
         return http.build();
