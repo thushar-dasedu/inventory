@@ -1,6 +1,6 @@
 package com.InventoryManagement.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "product_serial_number")

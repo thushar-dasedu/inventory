@@ -71,6 +71,23 @@ public class ProductModelService {
         );
         productModelRepository.delete(model);
     }
+    public List<ViewProducts> listProducts(){
+        List<Object[]> objects= productModelRepository.viewAllProduct();
+        List<ViewProducts>  viewProducts=new ArrayList<>();
+        for(Object[] objects1:objects){
+            int modelId=(int) objects1[0];
+            String brandName=(String) objects1[1];
+            String productModelName=(String) objects1[2];
+            BigDecimal unitPrice=(BigDecimal) objects1[3];
+            float tax=(float) objects1[4];
+            int quantity=(int) objects1[5];
+            ViewProducts viewProducts1=new ViewProducts(modelId,brandName,productModelName,unitPrice,tax,quantity);
+            viewProducts.add(viewProducts1);
+
+        }
+        return viewProducts;
+    }
+
 
     public List<ViewProducts> listProduct(int productId){
         productBrandRepository.findById(productId).orElseThrow(
@@ -93,4 +110,5 @@ public class ProductModelService {
          }
 return viewProduct;
     }
+
 }

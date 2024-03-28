@@ -22,6 +22,9 @@ List<ProductModel> getModelByProductModel(@Param("productName")String productNam
 
 @Query(value = "call viewProducts(:productId)",nativeQuery = true)
     List<Object[]> viewProduct(@Param("productId")int productId);
+
+@Query(value = "call viewAllProduct()",nativeQuery = true)
+    List<Object[]> viewAllProduct();
 }
 
 

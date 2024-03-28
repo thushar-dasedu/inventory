@@ -55,4 +55,9 @@ public class ProductModelController {
     public List<ViewProducts> viewProducts(@PathVariable int productId){
      return    service.listProduct(productId);
     }
+
+    @GetMapping("/view/all-product")
+    public List<ViewProducts> listProduct(){
+        return service.listProducts();
+    }
 }

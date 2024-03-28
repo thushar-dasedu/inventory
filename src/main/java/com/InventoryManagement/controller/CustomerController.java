@@ -18,10 +18,10 @@ import java.util.NoSuchElementException;
 public class   CustomerController {
     @Autowired
     private CustomerService service;
-    @PostMapping("/add-customer")
-    public Customer addCustomer(@RequestBody Customer customer){
-        return service.addCustomer(customer);
-    }
+//    @PostMapping("/add-customer")
+//    public Customer addCustomer(@RequestBody Customer customer){
+//        return service.addCustomer(customer);
+//    }
 
     @GetMapping("/get-mobile-number/{mobileNumber}")
     public List<Customer> getCustomer(@PathVariable String mobileNumber){
@@ -54,11 +54,11 @@ public class   CustomerController {
         return service.updateCustomerById(id,customer);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> loginCustomer(@RequestBody Login loginDto){
-        LoginMessage loginMessage =service.loginEmployee(loginDto);
-        return ResponseEntity.ok(loginMessage);
-
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<?> loginCustomer(@RequestBody Login loginDto){
+//        LoginMessage loginMessage =service.loginEmployee(loginDto);
+//        return ResponseEntity.ok(loginMessage);
+//
+//    }
 
 }

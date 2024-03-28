@@ -2,7 +2,7 @@ package com.InventoryManagement.repository;
 
 import com.InventoryManagement.entity.AllSalesInformation;
 import com.InventoryManagement.entity.SaleDetail;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

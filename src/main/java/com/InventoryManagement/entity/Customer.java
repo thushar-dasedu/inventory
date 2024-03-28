@@ -1,10 +1,21 @@
 package com.InventoryManagement.entity;
 
-import jakarta.persistence.*;
+
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.authority.SimpleGrantedAuthority;
+//import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 
 @Entity
 @Table(name = "customer")
-public class Customer {
+public class Customer /*implements UserDetails */{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "customer_id")
@@ -19,8 +30,11 @@ public class Customer {
     private String email;
     @Column(name = "password")
     private String password;
-
-
+    @ManyToMany(cascade =CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role",
+    joinColumns = @JoinColumn(name = "customer",referencedColumnName = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "role",referencedColumnName = "id"))
+     private Set<Role> roles =new HashSet<>();
     public int getCustomerId() {
         return customerId;
     }
@@ -61,9 +75,41 @@ public class Customer {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        List<SimpleGrantedAuthority> authorities= this.roles.stream().map((role)-> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+//
+//        return authorities ;
+//    }
+//
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    @Override
+//    public String getUsername() {
+//        return email;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return true;
+//    }
 
     public void setPassword(String password) {
         this.password = password;

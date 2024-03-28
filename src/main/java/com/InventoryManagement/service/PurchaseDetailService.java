@@ -6,7 +6,7 @@ import com.InventoryManagement.exception.IllegalArgumentException;
 import com.InventoryManagement.exception.NoSuchElementException;
 import com.InventoryManagement.exception.NotNullException;
 import com.InventoryManagement.repository.*;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
