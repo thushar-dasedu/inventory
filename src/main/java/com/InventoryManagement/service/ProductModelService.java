@@ -1,18 +1,25 @@
 package com.InventoryManagement.service;
 
+import com.InventoryManagement.entity.FileData;
 import com.InventoryManagement.entity.ProductBrand;
 import com.InventoryManagement.entity.ProductModel;
 import com.InventoryManagement.entity.ViewProducts;
 import com.InventoryManagement.exception.ElementAlreadyExistsException;
 import com.InventoryManagement.exception.NoSuchElementException;
+import com.InventoryManagement.repository.FileDataRepository;
 import com.InventoryManagement.repository.ProductBrandRepository;
 import com.InventoryManagement.repository.ProductModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductModelService {
@@ -20,6 +27,11 @@ public class ProductModelService {
    private ProductModelRepository productModelRepository;
     @Autowired
     private ProductBrandRepository productBrandRepository;
+
+    @Autowired
+    private FileDataRepository fileDataRepository;
+
+    private final String FOLDER_PATH="C:\\Users\\Lenovo\\MyFiles\\";
     public ProductModel getModelById(int id){
         return productModelRepository.findById(id).orElseThrow(
                 ()->new NoSuchElementException("Given product model id "+id+" not present")
@@ -33,10 +45,7 @@ public class ProductModelService {
         List<ProductModel> product=productModelRepository.getModelByProductModel(model.getProductModelName());
 
         if (product.isEmpty()){
-            return productModelRepository.addProductModel(model.getProductId()
-            ,model.getProductModelName(),
-                    model.getUnitPrice(),
-                    model.getTax(),model.getQuantity()) ;
+            return productModelRepository.save(model);
         }throw new ElementAlreadyExistsException("Given product model already exists");
 
     }
@@ -109,6 +118,34 @@ public class ProductModelService {
 
          }
 return viewProduct;
+    }
+
+
+//    public String uploadImageToFileSystem(MultipartFile file) throws IOException {
+//        String filePath=FOLDER_PATH+file.getOriginalFilename();
+//
+//        FileData fileData=fileDataRepository.save(FileData.builder()
+//                .name(file.getOriginalFilename())
+//                .type(file.getContentType())
+//                .filePath(filePath).build());
+//
+//        file.transferTo(new File(filePath));
+//
+//        if (fileData != null) {
+//            return "file uploaded successfully : " + filePath;
+//        }
+//        return null;
+//    }
+
+    public byte[] downloadImageFromFileSystem(String fileName) throws IOException {
+        Optional<FileData> fileData = fileDataRepository.findByName(fileName);
+        String filePath=fileData.get().getFilePath();
+        byte[] images = Files.readAllBytes(new File(filePath).toPath());
+        return images;
+    }
+
+    public List<FileData> getData(){
+       return fileDataRepository.findAll();
     }
 
 }

@@ -3,6 +3,7 @@ package com.InventoryManagement.entity;
 import javax.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Entity
 @Table(name = "product_model")
@@ -23,6 +24,24 @@ public class ProductModel {
 
     @Column(name = "quantity")
     private int quantity;
+
+    public Set<FileData> getImageMadel() {
+        return imageMadel;
+    }
+
+    public void setImageMadel(Set<FileData> imageMadel) {
+        this.imageMadel = imageMadel;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinTable(name = "product_image",
+    joinColumns = {
+            @JoinColumn(name = "model_id")
+    },
+    inverseJoinColumns = {
+            @JoinColumn(name = "image_id")
+    })
+    private Set<FileData> imageMadel;
 
     public int getModelId() {
         return modelId;
