@@ -1,6 +1,7 @@
 package com.InventoryManagement.controller;
 
 import com.InventoryManagement.entity.FileData;
+import com.InventoryManagement.entity.ProductInfo;
 import com.InventoryManagement.entity.ProductModel;
 import com.InventoryManagement.entity.ViewProducts;
 import com.InventoryManagement.exception.DeleteResponse;
@@ -101,12 +102,12 @@ public class ProductModelController {
         return service.listProducts();
     }
 
-//    @PostMapping("/fileSystem")
-//    public ResponseEntity<?> uploadImageToFIleSystem(@RequestParam("image") MultipartFile file) throws IOException {
-//        String uploadImage = service.uploadImageToFileSystem(file);
-//        return ResponseEntity.status(HttpStatus.OK)
-//                .body(uploadImage);
-//    }
+    @PostMapping("/fileSystem")
+    public ResponseEntity<?> uploadImageToFIleSystem(@RequestParam("image") MultipartFile file) throws IOException {
+        String uploadImage = service.uploadImageToFileSystem(file);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(uploadImage);
+    }
 
     @GetMapping("/fileSystem/{fileName}")
     public ResponseEntity<?> downloadImageFromFileSystem(@PathVariable String fileName) throws IOException {
@@ -118,7 +119,7 @@ public class ProductModelController {
     }
 
 @GetMapping("/images")
-    public List<FileData> getData(){
+    public List<ProductInfo> getData(){
         return service.getData();
 }
 }

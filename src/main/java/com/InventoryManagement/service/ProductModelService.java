@@ -1,9 +1,6 @@
 package com.InventoryManagement.service;
 
-import com.InventoryManagement.entity.FileData;
-import com.InventoryManagement.entity.ProductBrand;
-import com.InventoryManagement.entity.ProductModel;
-import com.InventoryManagement.entity.ViewProducts;
+import com.InventoryManagement.entity.*;
 import com.InventoryManagement.exception.ElementAlreadyExistsException;
 import com.InventoryManagement.exception.NoSuchElementException;
 import com.InventoryManagement.repository.FileDataRepository;
@@ -99,7 +96,7 @@ public class ProductModelService {
 
 
     public List<ViewProducts> listProduct(int productId){
-        productBrandRepository.findById(productId).orElseThrow(
+        productModelRepository.findById(productId).orElseThrow(
                 ()->new NoSuchElementException("Given  product id "+productId+" not present")
         );
        List<Object[]> viewProducts= productModelRepository.viewProduct(productId);
@@ -111,9 +108,12 @@ public class ProductModelService {
              BigDecimal unitPrice=(BigDecimal) object[3];
              float tax=(float) object[4];
              int quantity=(int) object[5];
-             ViewProducts products=new ViewProducts(modelId,brandName,productModelName,unitPrice,tax,quantity);
-             viewProduct.add(products);
-
+             int id=(int) object[6];
+             String name=(String) object[7];
+             String type=(String) object[8];
+             String filePath=(String) object[9];
+             ViewProducts viewProducts1=new ViewProducts(modelId,brandName,productModelName,unitPrice,tax,quantity,id,name,type,filePath);
+             viewProduct.add(viewProducts1);
 
 
          }
@@ -121,21 +121,21 @@ return viewProduct;
     }
 
 
-//    public String uploadImageToFileSystem(MultipartFile file) throws IOException {
-//        String filePath=FOLDER_PATH+file.getOriginalFilename();
-//
-//        FileData fileData=fileDataRepository.save(FileData.builder()
-//                .name(file.getOriginalFilename())
-//                .type(file.getContentType())
-//                .filePath(filePath).build());
-//
-//        file.transferTo(new File(filePath));
-//
-//        if (fileData != null) {
-//            return "file uploaded successfully : " + filePath;
-//        }
-//        return null;
-//    }
+    public String uploadImageToFileSystem(MultipartFile file) throws IOException {
+        String filePath=FOLDER_PATH+file.getOriginalFilename();
+
+        FileData fileData=fileDataRepository.save(FileData.builder()
+                .name(file.getOriginalFilename())
+                .type(file.getContentType())
+                .filePath(filePath).build());
+
+        file.transferTo(new File(filePath));
+
+        if (fileData != null) {
+            return "file uploaded successfully : " + filePath;
+        }
+        return null;
+    }
 
     public byte[] downloadImageFromFileSystem(String fileName) throws IOException {
         Optional<FileData> fileData = fileDataRepository.findByName(fileName);
@@ -144,8 +144,25 @@ return viewProduct;
         return images;
     }
 
-    public List<FileData> getData(){
-       return fileDataRepository.findAll();
+    public List<ProductInfo> getData(){
+       List<Object[]>getProduct= fileDataRepository.getProductInfo();
+       List<ProductInfo> productInfos=new ArrayList<>();
+
+       for(Object[] object:getProduct){
+           int modelId=(int) object[0];
+           int productId=(int)object[1];
+           String productModelName=(String) object[2];
+           BigDecimal unitPrice=(BigDecimal) object[3];
+           float tax=(float) object[4];
+           int quantity=(int) object[5];
+           int id=(int) object[6];
+           String name=(String) object[7];
+           String type=(String) object[8];
+           String filePath=(String) object[9];
+           ProductInfo productInfo=new ProductInfo(modelId,productId,productModelName,unitPrice,tax,quantity,id,name,type,filePath);
+           productInfos.add(productInfo);
+       }
+       return productInfos;
     }
 
 }
