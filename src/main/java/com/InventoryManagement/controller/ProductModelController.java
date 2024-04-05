@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -33,6 +34,7 @@ public class ProductModelController {
     public ProductModel getModelById(@PathVariable int id){
         return service.getModelById(id);
     }
+
     @PostMapping(value = "/add-product-model",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ProductModel addModel(@RequestPart("product") ProductModel model,
                                  @RequestPart("image")MultipartFile[] file){
@@ -63,6 +65,8 @@ public class ProductModelController {
         }
         return imageModels;
     }
+
+
 
 
 
