@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PurchaseHeaderRepository extends JpaRepository<PurchaseHeader,Integer> {
+public interface  PurchaseHeaderRepository extends JpaRepository<PurchaseHeader,Integer> {
     @Query(value = "call addPurchaseHeader(:supplierId)",nativeQuery = true)
     PurchaseHeader addPurchase(@Param("supplierId")int supplierId);
 }

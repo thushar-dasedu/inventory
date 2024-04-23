@@ -6,6 +6,7 @@ import com.InventoryManagement.service.ProductBrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,18 +17,22 @@ import java.util.NoSuchElementException;
 public class ProductBrandController {
     @Autowired
     private ProductBrandService service;
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/get-product-by/{id}")
     public ProductBrand getProductById(@PathVariable int id){
         return service.getProductById(id);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add-product-brand")
     public ProductBrand addProduct(@RequestBody ProductBrand brand){
         return service.addProduct(brand);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/get-all-product")
     public List<ProductBrand> getProduct(){
         return service.getProduct();
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete-product-by/{id}")
     public ResponseEntity<DeleteResponse> deleteCustomer(@PathVariable int id){
         try{
@@ -40,6 +45,7 @@ public class ProductBrandController {
         }
 
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update-product/{productId}")
     public ProductBrand updateBrand(@PathVariable int productId,@RequestBody ProductBrand productBrand){
         return service.updateProduct(productId,productBrand);

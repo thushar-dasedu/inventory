@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,11 +30,13 @@ public class ProductModelController {
     @Autowired
     private ProductModelService service;
     private final String FOLDER_PATH="C:\\Users\\Lenovo\\MyFiles\\";
+    @PreAuthorize("hasRole('ADMIN')")
 
     @GetMapping("get-by/{id}")
     public ProductModel getModelById(@PathVariable int id){
         return service.getModelById(id);
     }
+    @PreAuthorize("hasRole('ADMIN')")
 
     @PostMapping(value = "/add-product-model",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ProductModel addModel(@RequestPart("product") ProductModel model,
@@ -69,20 +72,23 @@ public class ProductModelController {
 
 
 
-
+    @PreAuthorize("hasRole('ADMIN')")
 
     @GetMapping("/get-all-model")
     public List<ProductModel> getAllModel(){
         return service.listAllModel();
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update-model-by/{id}")
     public ProductModel updateModel(@PathVariable int id,@RequestBody ProductModel model){
         return service.updateModel(id,model);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/get-model-by-name/{name}")
     public List<ProductModel> getModelByName(@PathVariable String name){
         return service.getModelByName(name);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete-model-by/{id}")
     public ResponseEntity<DeleteResponse> deleteModel(@PathVariable int id){
         try {
@@ -96,6 +102,7 @@ public class ProductModelController {
         }
 
     }
+
     @GetMapping("/view-products/{productId}")
     public List<ViewProducts> viewProducts(@PathVariable int productId){
      return    service.listProduct(productId);
@@ -105,7 +112,7 @@ public class ProductModelController {
     public List<ViewProducts> listProduct(){
         return service.listProducts();
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/fileSystem")
     public ResponseEntity<?> uploadImageToFIleSystem(@RequestParam("image") MultipartFile file) throws IOException {
         String uploadImage = service.uploadImageToFileSystem(file);

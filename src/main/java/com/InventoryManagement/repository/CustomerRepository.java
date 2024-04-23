@@ -21,5 +21,7 @@ public interface CustomerRepository extends JpaRepository<Customer,Integer> {
     public void deleteCustomerByMobileNumber(@Param("mobileNumber")String mobileNumber);
 
     Optional<Customer> findOneByEmailAndPassword(String email, String password);
-   Optional< Customer> findByEmail(String email);
+//   Optional< Customer> findByEmail(String email);
+
+   Customer findByEmail(String email);
 }

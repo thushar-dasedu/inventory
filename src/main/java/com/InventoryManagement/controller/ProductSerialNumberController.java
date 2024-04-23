@@ -7,6 +7,7 @@ import com.InventoryManagement.service.ProductSerialNumberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,24 +17,28 @@ import java.util.List;
 public class ProductSerialNumberController {
     @Autowired
     private ProductSerialNumberService service;
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/get-all")
     public List<ProductSerialNumber> getALlSerialNumber(){
         return service.getAllSerialNumber();
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("get-serial-number/{id}")
     public ProductSerialNumber getById(@PathVariable int id){
         return service.getById(id);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/get-serial-number-by-stock/{stockId}")
     public List<ProductSerialNumber> getSerialByStock(@PathVariable int stockId){
         return service.getSerialByStock(stockId);
     }
+    @PreAuthorize("hasRole('ADMIN')")
 
     @PostMapping("/add-serial-number")
     public ProductSerialNumber addSerialNumber(@RequestBody ProductSerialNumber serialNumber){
         return service.addSerial(serialNumber);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
 
     @DeleteMapping("/delete-serial-number/{serialNumber}")
     public ResponseEntity<DeleteResponse>deleteSerialNumber(@PathVariable String serialNumber){
@@ -47,6 +52,7 @@ public class ProductSerialNumberController {
         }
 
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/get-serial-by/{serial}")
     public ProductSerialNumber getSerialBySerial(@PathVariable String serial){
         return service.getBySerial(serial);
