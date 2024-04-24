@@ -39,8 +39,8 @@ public class InventorySecurity extends WebSecurityConfigurerAdapter  {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/customer/authenticate", "/customer/register","/pro-model/images","pro-model/fileSystem/{fileName}"
-                ,"pro-model/view-products/{productId}").permitAll()
+                .antMatchers("/customer/authenticate", "/customer/register","/pro-model/images","/pro-model/fileSystem/{fileName}"
+                ,"/pro-model/view-products/{productId}").permitAll()
 
                 .anyRequest().authenticated()
                 .and()
