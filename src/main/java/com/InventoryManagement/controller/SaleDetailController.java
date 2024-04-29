@@ -3,6 +3,7 @@ package com.InventoryManagement.controller;
 import com.InventoryManagement.entity.AllSalesInformation;
 import com.InventoryManagement.entity.SaleDetail;
 import com.InventoryManagement.entity.SaleModel;
+import com.InventoryManagement.entity.SaleReport;
 import com.InventoryManagement.exception.DeleteResponse;
 import com.InventoryManagement.exception.NoSuchElementException;
 import com.InventoryManagement.service.SaleDetailService;
@@ -65,6 +66,13 @@ public class SaleDetailController {
         return service.getAllSale();
 
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/get/sale/report")
+    public List<SaleReport> getSaleReport(){
+        return service.getSaleRepo();
+    }
+
 
 
 }

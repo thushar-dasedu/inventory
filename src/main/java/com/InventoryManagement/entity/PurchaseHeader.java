@@ -2,6 +2,7 @@ package com.InventoryManagement.entity;
 
 import javax.persistence.*;
 
+
 import java.time.LocalDateTime;
 
 @Entity

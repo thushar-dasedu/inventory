@@ -156,7 +156,7 @@ public class CustomerController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value="/find/all", method = RequestMethod.GET)
+    @RequestMapping(value=" ", method = RequestMethod.GET)
     public List<Customer> getAllList(){
         return userService.findAll();
     }

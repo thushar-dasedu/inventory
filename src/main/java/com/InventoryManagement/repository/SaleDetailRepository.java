@@ -3,6 +3,8 @@ package com.InventoryManagement.repository;
 import com.InventoryManagement.entity.AllSalesInformation;
 import com.InventoryManagement.entity.SaleDetail;
 import javax.transaction.Transactional;
+
+import com.InventoryManagement.entity.SaleReport;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -46,4 +48,15 @@ public interface SaleDetailRepository extends JpaRepository<SaleDetail,Integer> 
 
 @Query(value = "select contain_serial_number from product_brand b inner join product_model m on m.product_id=b.product_id where m.model_id=:modelId ",nativeQuery = true)
     boolean getContainSerialNumber(@Param("modelId")int modelId);
+
+@Query(value = "SELECT \n" +
+        "    DATE_FORMAT(h.sale_date_time, '%Y-%m') AS MONTH,\n" +
+        "    SUM(d.net_amount) AS total_sales\n" +
+        "FROM \n" +
+        "    sale_header h INNER JOIN sale_detail d ON h.sale_id=d.sale_id\n" +
+        "GROUP BY \n" +
+        "    DATE_FORMAT(h.sale_date_time, '%Y-%m')\n" +
+        "ORDER BY \n" +
+        "    MONTH; ",nativeQuery = true)
+   List<Object[]> getSaleReport();
 }

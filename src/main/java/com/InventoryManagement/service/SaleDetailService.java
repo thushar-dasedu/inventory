@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class SaleDetailService {
@@ -134,6 +131,19 @@ public List<AllSalesInformation> getAllSale(){
          allSalesInformation.setTaxAmount((BigDecimal) object[8]);
          allSalesInfo.add(allSalesInformation);
      }return allSalesInfo ;
+}
+
+public  List<SaleReport> getSaleRepo(){
+  List<Object[]> result= saleDetailRepository.getSaleReport();
+  List<SaleReport> saleReports=new ArrayList<>();
+  for (Object[] objects:result){
+      String date=(String) objects[0];
+      BigDecimal saleReport=(BigDecimal) objects[1];
+      SaleReport saleReport1=new SaleReport(date,saleReport);
+      saleReports.add(saleReport1);
+
+  }
+  return saleReports;
 }
 
 
